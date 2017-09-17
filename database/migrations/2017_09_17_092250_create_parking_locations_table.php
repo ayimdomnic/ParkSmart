@@ -16,6 +16,7 @@ class CreateParkingLocationsTable extends Migration
         Schema::create('parking_locations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
+            $table->string('cover_image');
             $table->double('latitude', 15, 8)->nullable();
             $table->double('longitude', 15, 8)->nullable();
             $table->string('loaction')->nullable();

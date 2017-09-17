@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'first_name', 'last_name', 'phone', 'email', 'password',
+        'username', 'first_name', 'last_name', 'provider', 'provider_id', 'phone', 'email', 'password',
     ];
 
     /**
@@ -26,6 +26,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::creating(function ($user) {
+            $user->name  =  "{$user->first_name} {$user->last_name}";
+        });
+    }
 
     public function commuter_routes()
     {
@@ -46,4 +55,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo(LeaderBoard::class, 'user_id');
     }
+
+    
 }

@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Socialite;
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -39,6 +41,36 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function redirectToProvider($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function handleProviderCallback($provider)
+    {
+        $user = Socialite::driver($provider)->user();
+
+        $authUser = $this->findOrCreateUser($user, $provider);
+        Auth::login($authUser, true);
+        return redirect($this->redirectTo);
+    }
+
+    public function findOrCreateUser($user, $provider)
+    {
+        $authUser = User::where('provider_id', $user->id)->first();
+        if ($authUser) {
+            return $authUser;
+        }
+
+        return User::create([
+            'username' => $user->username,
+            'name'     => $user->name,
+            'email'    => $user->email,
+            'provider' => $provider,
+            'provider_id' => $user->id
+        ]);
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -66,10 +98,10 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'username' => $data['name'],
-            'first_name' => $data['first_name'];
-            'last_name' => $data['last_name'];
-            'phone' => $data['phone'];
+            'username' => $data['username'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
