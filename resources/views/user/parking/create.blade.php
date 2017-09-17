@@ -15,7 +15,7 @@
                     @endif
 
                     
-                    {!! Form::open([ 'method' => 'POST', 'enctype' => 'multipart/form', 'class' => 'form-horizontal', 'route' => 'parking.store']) !!}
+                    {!! Form::open([ 'method' => 'POST', 'enctype' => 'multipart/form-data', 'class' => 'form-horizontal', 'route' => 'parking.store']) !!}
                     <div class="form-group">
                         <div class="row col-md-12">
                             <div class="col-md-6">

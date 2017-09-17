@@ -77,5 +77,15 @@ class HomeController extends Controller
         return view('user.profile', [ 'user' => $user]);
     }
 
+    public function profile_store(Request $request)
+    {
+        $this->validate($request, [
+
+        ]);
+
+        return redirect()->route('home');
+
+    }
+
     
 }
