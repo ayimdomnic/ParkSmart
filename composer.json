@@ -10,7 +10,8 @@
         "laravel/framework": "5.5.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
-        "laravelcollective/html": "^5.5"
+        "laravelcollective/html": "^5.5",
+        "santigarcor/laratrust": "4.0.*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.0",
